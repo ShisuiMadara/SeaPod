@@ -17,7 +17,6 @@ const pages = [
     ["Notifications 🔔", "/notifications"],
     ["Upload ⬆️", "/upload"],
 ];
-const settings = ["Account", "Logout"];
 const settings3 = [
     ["Account", "/account"],
     ["Logout", "/logout"],
@@ -47,11 +46,14 @@ function ProfileButton() {
     return (
         <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
-                <Button variant="contained" onClick={handleButtonPress} color="warning">
+                <button
+                    className="p-2 rounded pl-5 pr-5 bg-sky-500 hover:bg-sky-700"
+                    onClick={handleButtonPress}
+                >
                     <Typography color={"white"} textAlign="center" textTransform={"none"}>
                         Profile
                     </Typography>
-                </Button>
+                </button>
             </Tooltip>
             <Menu
                 sx={{ mt: "45px" }}
@@ -118,9 +120,10 @@ function NavBar() {
                             textDecoration: "none",
                             flexGrow: 0,
                             textTransform: "capitalize",
+                            fontFamily: "serif",
                         }}
                     >
-                        SeaPod
+                        SEA POD
                     </Typography>
 
                     <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -183,55 +186,18 @@ function NavBar() {
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, ml: 2 }}>
                         {pages.map((page) => (
-                            <Button
+                            <Link
                                 LinkComponent={Link}
-                                variant="contained"
-                                color="warning"
                                 key={page[0]}
                                 onClick={handleCloseNavMenu}
-                                sx={{ mx: 0.5, p: 0.7, my: 2, color: "white", display: "block" }}
                                 to={page[1]}
+                                className="p-2 pl-5 pr-5 bg-sky-500 hover:bg-sky-700 border-1 ml-2 rounded shadow text-base"
                             >
-                                <Typography
-                                    color={"white"}
-                                    textAlign="center"
-                                    textTransform={"none"}
-                                >
-                                    {page[0]}
-                                </Typography>
-                            </Button>
+                                {page[0]}
+                            </Link>
                         ))}
                     </Box>
                     <ProfileButton />
-                    {/* <Box sx={{ flexGrow: 0 }}>
-                    <Tooltip title="Open settings">
-                        <Button variant="contained" onClick={handleOpenUserMenu} color="warning">
-                            <Typography color={"white"} textAlign="center" textTransform={'none'}>Profile</Typography>
-                        </Button>
-                    </Tooltip>
-                    <Menu
-                        sx={{ mt: '45px' }}
-                        id="menu-appbar"
-                        anchorEl={anchorElUser}
-                        anchorOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                        keepMounted
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                        open={Boolean(anchorElUser)}
-                        onClose={handleCloseUserMenu}
-                    >
-                    {settings.map((setting) => (
-                        <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                        <Typography textAlign="center">{setting}</Typography>
-                        </MenuItem>
-                    ))}
-                    </Menu>
-                </Box> */}
                 </Toolbar>
             </Container>
         </AppBar>

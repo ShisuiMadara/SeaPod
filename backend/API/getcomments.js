@@ -17,6 +17,7 @@ async function getcomments(req, res) {
     let db = client.db("seapod");
     let col = db.collection("comments");
     let result = await col.find({ video: req.body.videoid, reply: false }).toArray();
+    client.close()
     res.status(200).send(result);
     return;
 }

@@ -19,6 +19,7 @@ async function getnotif(req, res) {
         res.status(404).send("Not Found");
         return;
     }
+    client.close()
     res.status(200).send(data);
 }
 exports.x = getnotif;

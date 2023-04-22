@@ -19,6 +19,7 @@ async function getcomments(req, res) {
     let col = db.collection("comments");
     let res1 = await col.findOne({ _id: new ObjectID(req.body.commentid) });
     if (!res1) {
+        client.close()
         res.status(404).send("No comment found");
         return;
     }
@@ -27,7 +28,10 @@ async function getcomments(req, res) {
         org: res1,
         replies: result,
     };
+    
+    client.close()
     res.status(200).send(result_);
+    
     return;
 }
 exports.get = getcomments;

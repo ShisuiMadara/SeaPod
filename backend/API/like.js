@@ -33,6 +33,7 @@ async function like(req, res) {
             return;
         }
         await col2.updateOne({ _id: new ObjectID(req.body.videoid) }, { $inc: { likes: 1 } });
+        client.close()
         res.sendStatus(200);
     } else if (req.body.action == "unlike") {
         let fx = await col.find({ videoid: req.body.videoid, user: req.user }).count();
@@ -46,8 +47,10 @@ async function like(req, res) {
             return;
         }
         await col2.updateOne({ _id: new ObjectID(req.body.videoid) }, { $inc: { likes: -1 } });
+        client.close()
         res.sendStatus(200);
     } else {
+        client.close()
         res.status(400).send("Invalid Request!");
     }
     return;

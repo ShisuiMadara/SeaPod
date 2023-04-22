@@ -26,6 +26,7 @@ async function gencomment(videoid, byuserid) {
         commentid: "",
     };
     await col.insertOne(obj);
+    client.close()
     return;
 }
 
@@ -53,6 +54,7 @@ async function genreply(commentid, byuserid) {
         commentid: commentid,
     };
     await col.insertOne(obj);
+    client.close()
     return;
 }
 exports.reply = genreply;

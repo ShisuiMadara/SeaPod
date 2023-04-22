@@ -32,9 +32,11 @@ async function upload(req, res) {
 
     let insObj = await col.insertOne(obj);
     if (!insObj.acknowledged) {
+        client.close()
         res.send({success: false, message: "Server Error!"});
         return;
     }        
+    client.close()
     res.status(200).send({success: true, message: "Podcast Inserted", id: insObj.insertedId.toString()});
 }
 exports.x = upload;

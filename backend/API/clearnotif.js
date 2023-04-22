@@ -19,6 +19,7 @@ async function clear(req, res) {
         res.status(404).send("Not Found");
         return;
     }
+    client.close()
     res.status(200).send("Deleted");
 }
 exports.x = clear;

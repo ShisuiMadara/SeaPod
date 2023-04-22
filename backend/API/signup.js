@@ -29,6 +29,7 @@ async function signup(req, res) {
         return;
     }
     else{
+        client.close()
         res.send({success: false, message: "User ID or E-Mail Already Exists"});
         return;
     }

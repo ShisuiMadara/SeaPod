@@ -20,9 +20,13 @@ async function get(req, res) {
     const query = { _id: new ObjectID(req.body.videoid) };
     let result = await col.findOne(query);
     if (!result) {
+        client.close()
         res.status(404).send("Nothing Found");
         return;
     }
+
+    client.close()
     res.status(200).send({ data: result });
+   
 }
 exports.x = get;

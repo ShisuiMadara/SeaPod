@@ -32,8 +32,10 @@ async function getcomments(req, res) {
     let resp = await col.insertOne(obj);
     if (resp.acknowledged == true) {
         await notif.comment(req.body.videoid, req.user);
+        client.close()
         res.status(200).send("Inserted");
     } else {
+        client.close()
         res.status(500).send("Internal Error");
     }
     return;

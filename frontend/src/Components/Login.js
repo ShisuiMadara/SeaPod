@@ -6,6 +6,8 @@ import { Outlet, useNavigate } from "react-router-dom";
 function Login() {
     const [user, setUser] = useState("");
     const [pass, setPass] = useState("");
+    const [email, setEmail] = useState("");
+    const [name, setName] = useState("");
     const [isLogin, setLogin] = useState(true);
     const navigate = useNavigate();
     useEffect(() => {
@@ -16,14 +18,16 @@ function Login() {
 
     function login() {
         axios
-            .post("http://localhost:5000/login", { user: user, password: pass })
+            .post("http://localhost:5000/api/login", { email: email, password: pass })
             .then((resp) => {
-                if (resp.status === 200) {
+                if (resp.data.success) {
                     localStorage.setItem("token", resp.data);
                     localStorage.setItem("user", user);
                     setUser("");
                     setPass("");
                     navigate("/");
+                } else {
+                    alert(resp.data.message);
                 }
             })
             .catch((e) => {
@@ -33,10 +37,18 @@ function Login() {
 
     function signup() {
         axios
-            .post("http://localhost:5000/signup", { user: user, password: pass })
+            .post("http://localhost:5000/api/signup", {
+                userId: user,
+                password: pass,
+                name: name,
+                email: email,
+                genre: [],
+            })
             .then((resp) => {
-                if (resp.status === 200) {
+                if (resp.data.success) {
                     login();
+                } else {
+                    alert(resp.data.message);
                 }
             })
             .catch((e) => {
@@ -60,12 +72,40 @@ function Login() {
                             <div align="center" className="pt-2 pb-14 text-2xl">
                                 {isLogin ? "Login" : "Signup"}
                             </div>
+                            {!isLogin ? (
+                                <Stack className="p-3">
+                                    <TextField
+                                        label="Name"
+                                        type="name"
+                                        color={name === "" ? "error" : "primary"}
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
+                                        sx={{ mx: 2, backgroundColor: "white" }}
+                                    />
+                                </Stack>
+                            ) : (
+                                <></>
+                            )}
+                            {!isLogin ? (
+                                <Stack className="p-3">
+                                    <TextField
+                                        label="Username"
+                                        color={user === "" ? "error" : "primary"}
+                                        value={user}
+                                        onChange={(e) => setUser(e.target.value)}
+                                        sx={{ mx: 2, backgroundColor: "white" }}
+                                    />
+                                </Stack>
+                            ) : (
+                                <></>
+                            )}
                             <Stack className="p-3">
                                 <TextField
-                                    label="Username"
-                                    color={user === "" ? "error" : "primary"}
-                                    value={user}
-                                    onChange={(e) => setUser(e.target.value)}
+                                    label="Email"
+                                    type="email"
+                                    color={email === "" ? "error" : "primary"}
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                     sx={{ mx: 2, backgroundColor: "white" }}
                                 />
                             </Stack>
@@ -99,7 +139,7 @@ function Login() {
                                     <button
                                         className="p-2 w-full rounded bg-sky-500 text-white text-lg hover:bg-sky-800"
                                         onClick={login}
-                                        disabled={user === "" || pass === ""}
+                                        disabled={email === "" || pass === ""}
                                     >
                                         Login
                                     </button>
@@ -107,7 +147,12 @@ function Login() {
                                     <button
                                         className="p-2 w-full rounded bg-sky-500 text-white text-lg hover:bg-sky-800"
                                         onClick={signup}
-                                        disabled={user === "" || pass === ""}
+                                        disabled={
+                                            user === "" ||
+                                            pass === "" ||
+                                            email === "" ||
+                                            name === ""
+                                        }
                                     >
                                         Signup
                                     </button>

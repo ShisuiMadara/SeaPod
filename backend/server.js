@@ -22,12 +22,12 @@ const multerStorage = multer.diskStorage({
 });
 const upload = multer({ storage: multerStorage });
 
-app.get("/", (req, res) => {
+app.get("/", require('./API/jwtmiddle').jwtMiddleware, (req, res) => {
     res.send("hello");
 });
 
 const login = require("./API/login");
-app.post("/login", (req, res) => {
+app.post("/api/login", (req, res) => {
     login.login(req, res);
 });
 

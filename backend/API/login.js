@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 
 async function login(req, res) {
     console.log(req.body);
-    if (!req.body.user || !req.body.password) {
+    if (!req.body.email || !req.body.password) {
         res.send({success: false, message: "Bad Request!"});
         return;
     }
@@ -20,7 +20,7 @@ async function login(req, res) {
     let db = client.db("seapod");
     let col = db.collection("user");    
 
-    let usr = await col.findOne({email: req.body.user}, {projection:{passHash: 1, admin: 1, email:1, userId: 1}});
+    let usr = await col.findOne({email: req.body.email}, {projection:{passHash: 1, admin: 1, email:1, userId: 1}});
     if (!usr) {
         res.send({success: false, message: "User Not Found!"});
         return;
@@ -30,7 +30,7 @@ async function login(req, res) {
         res.send({success: false, message: "Password Mismatch!"});
         return;
     }
-    res.send({success: true, token: genToken(data)});
+    res.send({success: true, token: genToken(usr)});
 }
 
 function genToken(data){

@@ -25,7 +25,7 @@ const CollapsibleCard = ({ title, videoUrl, audioUrl }) => {
       <BackSide style={{ backgroundColor: '#175852'}}>
         
         <div style={{ backgroundColor: '#175852'}}>
-            <ReactPlayer url={videoUrl} controls={true} />
+            <ReactPlayer width="100%" height="100%" url={videoUrl} controls={true} />
         </div>
    
       </BackSide>

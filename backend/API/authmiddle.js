@@ -15,18 +15,28 @@ async function authmiddleware(req, res, next) {
     let col = db.collection("tokens");
     if (req.user || !req.body.token || req.body.token.length != 24) {
         console.log(req.body);
-        res.status(401).send("Incorrect Request");
+        res.status(401).send({
+            success: false,
+            msg:"Incorrect Request"
+        });
         return;
     }
     let token = req.body.token;
     let userdoc = await col.findOne({ _id: new ObjectID(token) });
     if (!userdoc) {
-        res.status(401).send("Invalid Token");
+        res.status(401).send({
+            success: false,
+            msg:"Invalid Token"
+        });
         return;
     }
-    console.log("Hello");
+ 
     req.user = userdoc.user;
-    console.log("Hello");
+    
+    res.status(200).send({
+        sucess: true,
+        msg: "user authorized"
+    })
     next();
     return;
 }

@@ -14,25 +14,39 @@ async function stream(req, res) {
     if (!client) {
         return;
     }
-    let db = client.db("video");
-    let col = db.collection("videointernal");
-    let col2 = db.collection("video");
+    let db = client.db("seaPod");
+    let col = db.collection("podcast");
+    let col2 = db.collection("userViewPodcast");
 
-    const filentry = await col.findOne({ videoid: req.params.videoid });
+    const filentry = await col.findOne({ podcastId: req.params.podcastId });
     if (!filentry) {
-        res.status(404).send("No Video Found");
+        res.status(404).send({
+            success: false,
+            msg: "No Podcast Found"
+        });
     }
+
     const fn = filentry.filename;
-    const path = `video/${fn}.mp4`;
+    
+    const path = `podcast/${fn}.` + req.params.podcastType;
     const stat = fs.statSync(path);
     const fileSize = stat.size;
     const range = req.headers.range;
+
     if (!range) {
+        var contentType 
+
+        if(req.params.podcastType == "audio") {
+            contentType = "audio/mpeg"
+        } else {
+            contentType = "video/mp4"
+        }
+
         const head = {
             "Content-Length": fileSize,
-            "Content-Type": "video/mp4",
+            "Content-Type": contentType,
         };
-        await col2.updateOne({ _id: new ObjectID(req.params.videoid) }, { $inc: { views: 1 } });
+        await col2.updateOne({ _id: new ObjectID(req.params.podcastId) }, { $inc: { views: 1 } });
         res.writeHead(200, head);
         fs.createReadStream(path).pipe(res);
     } else {
@@ -51,7 +65,12 @@ async function stream(req, res) {
         };
         if (end == fileSize - 1) {
             await col2.updateOne({ _id: new ObjectID(req.params.videoid) }, { $inc: { views: 1 } });
-        }
+        } 
+        await col2.updateOne({
+            _id: new ObjectID(req.params.podcastId),
+            $inc: {views: 1},
+           
+        })
         res.writeHead(206, head);
         file.pipe(res);
     }

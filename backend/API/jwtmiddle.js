@@ -17,6 +17,7 @@ function jwtMiddleware(req, res, next){
     }
     console.log(z);
     req.userId = z.userId;
+    req.admin = z.admin;
     next();
 }
 exports.jwtMiddleware = jwtMiddleware;

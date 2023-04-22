@@ -93,14 +93,16 @@ async function stream(req, res) {
                     })
                     return
                 }
-                console.log(`Updated ${result.modifiedCount} documents in the collection`)
+                console.log(err)
                 client.close()
               })
         } 
      
         res.writeHead(206, head);
         file.pipe(res);
+        
     }
+    client.close()
 }
 
 exports.x = stream;

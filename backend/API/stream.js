@@ -32,7 +32,28 @@ async function stream(req, res) {
     const stat = fs.statSync(path);
     const fileSize = stat.size;
     const range = req.headers.range;
+    var data = {
+        userId: req.userId,
+        podcastId: req.podcastId,
+        activeListen: true,
+        like: false,
+        position: req.position,
+        completed: false
+    }
+    col2.insertOne(data, (err, result) => {
+        if (err){
+            res.status(200).send({
+                success: false, 
+                msg: err 
+            })
+            return
+        }
+        
+        console.log("Inserted")
 
+        client.close()
+      })
+    
     if (!range) {
         var contentType 
 
@@ -46,7 +67,7 @@ async function stream(req, res) {
             "Content-Length": fileSize,
             "Content-Type": contentType,
         };
-        await col2.updateOne({ _id: new ObjectID(req.params.podcastId) }, { $inc: { views: 1 } });
+
         res.writeHead(200, head);
         fs.createReadStream(path).pipe(res);
     } else {
@@ -64,16 +85,24 @@ async function stream(req, res) {
             "Content-Type": "video/mp4",
         };
         if (end == fileSize - 1) {
-            await col2.updateOne({ _id: new ObjectID(req.params.videoid) }, { $inc: { views: 1 } });
+            await collection.updateOne({ userId: userId }, { $set: { completed: true } }, (err, result) => {
+                if (err){
+                    res.status(200).send({
+                        success: false, 
+                        msg: err 
+                    })
+                    return
+                }
+                console.log(err)
+                client.close()
+              })
         } 
-        await col2.updateOne({
-            _id: new ObjectID(req.params.podcastId),
-            $inc: {views: 1},
-           
-        })
+     
         res.writeHead(206, head);
         file.pipe(res);
+        
     }
+    client.close()
 }
 
 exports.x = stream;

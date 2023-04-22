@@ -16,5 +16,17 @@ async function getRecentListen (req, res) {
         return;
     }
 
+    let db = client.db("seapod");
+    let col = db.collection("userViewPodcast");
+
+    let result = await col.find({
+        "userId": req.userId
+       });
     
+    res.status(200).send({
+        success: true,
+        msg: result
+    })
 }
+
+exports.execute = getRecentListen

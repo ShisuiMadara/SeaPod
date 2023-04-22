@@ -3,8 +3,10 @@ const app = express();
 const port = 5000;
 const multer = require("multer");
 const cors = require("cors");
+const dotenv = require('dotenv');
 app.use(cors({ origin: "*" }));
 
+dotenv.config();
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -40,7 +42,7 @@ app.post("/getvideo", (req, res) => {
 });
 
 const s = require("./API/signup");
-app.post("/signup", (req, res) => {
+app.post("/api/signup", (req, res) => {
     s.signup(req, res);
 });
 

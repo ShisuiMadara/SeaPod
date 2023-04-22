@@ -13,11 +13,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const multerStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, "video");
+        cb(null, "files");
     },
     filename: (req, file, cb) => {
-        var namef = Date.now().toString() + "-" + req.body.user;
-        cb(null, `${namef}.mp4`);
+        var namef = Date.now().toString() + "-" + req.userId;
+        let ext = req.body.video=="yes"?"mp4":"mp3";
+        cb(null, `${namef}.${ext}`);
     },
 });
 const upload = multer({ storage: multerStorage });
@@ -62,6 +63,8 @@ app.get("/stream/:videoid", (req, res) => {
 });
 
 const authmiddleware = require("./API/authmiddle");
+const jwtMiddleware = require("./API/jwtmiddle").jwtMiddleware;
+const adminMiddleware = require("./API/adminmiddle").adminMiddleware;
 
 const comment = require("./API/comment");
 app.post("/comment", authmiddleware.x, (req, res) => {
@@ -84,7 +87,7 @@ app.post("/changepass", authmiddleware.x, (req, res) => {
 });
 
 const upld = require("./API/upload");
-app.post("/upload", upload.single("file"), authmiddleware.x, (req, res) => {
+app.post("/api/upload", jwtMiddleware, adminMiddleware, upload.single("file"), (req, res) => {
     upld.x(req, res);
 });
 

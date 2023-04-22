@@ -22,7 +22,7 @@ const multerStorage = multer.diskStorage({
 });
 const upload = multer({ storage: multerStorage });
 
-app.get("/", require('./API/jwtmiddle').jwtMiddleware, (req, res) => {
+app.get("/", require('./API/jwtmiddle').jwtMiddleware, require('./API/adminmiddle').adminMiddleware, (req, res) => {
     res.send("hello");
 });
 

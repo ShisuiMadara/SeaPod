@@ -1,5 +1,6 @@
 var MongoClient = require("mongodb").MongoClient
 const bcrypt = require('bcrypt')
+var ObjectID = require("mongodb").ObjectId;
 
 var url =
     "mongodb://default:76VdQ34wZzBtt3MY@ac-qvcvywt-shard-00-00.lwxcedr.mongodb.net:27017,ac-qvcvywt-shard-00-01.lwxcedr.mongodb.net:27017,ac-qvcvywt-shard-00-02.lwxcedr.mongodb.net:27017/?ssl=true&replicaSet=atlas-vjhen2-shard-0&authSource=admin&retryWrites=true&w=majority";
@@ -15,13 +16,16 @@ async function change(req, res) {
     }
     let db = client.db("seapod")
     let col = db.collection("users")
-    const user = await collection.findOne({ userId: req.userId })
-    let currPassHash = user.password
-    var updated_user 
+    const user = await col.findOne({ _id: new ObjectID(req.userId) })
 
+  
+    let currPassHash = user.passHash
+    var updated_user 
+    console.log(0)
     if (req.body.newPassword) {
-        
-        var PassHashProvided = bcrypt.hash(req.body.password, 10)
+        console.log(1)
+        var PassHashProvided = await bcrypt.hash(req.body.password, 10)
+        console.log(2)
         const match = await bcrypt.compare(currPassHash, await PassHashProvided)
 
         if(!match) {

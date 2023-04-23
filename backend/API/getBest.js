@@ -30,14 +30,10 @@ async function getBest(req, res) {
 
     var data
 
-    var user_genre = req.genre
-
-    var result = []
-
     try{
         data = await col.find({ genre: { $in: req.genre } }).toArray()
 
-        result.sort((a, b) => b.likes - a.likes);
+        data.sort((a, b) => b.likes - a.likes);
     }catch(err){
 
         client.close()
@@ -53,7 +49,7 @@ async function getBest(req, res) {
 
     res.status(200).send({
         success: true,
-        data: result
+        data: data
     })
 
 }

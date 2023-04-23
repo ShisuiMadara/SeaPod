@@ -53,7 +53,12 @@ async function like(req, res) {
         res.send({message: "Server Error!", success: false});
         return;
     }
-    res.send({liked: !getInitData.liked, success: true});
+    updtlk = await col2.findOne({_id: new ObjectID(req.body.podcastId)}, {projection: {likes: 1}});
+    if (!updtlk){
+        res.send({message: "Server Error!", success: false});
+        return;
+    }
+    res.send({liked: !getInitData.liked, success: true, likes: updtlk.likes});
     return;
 }
 exports.x = like;

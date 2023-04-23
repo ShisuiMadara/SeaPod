@@ -47,7 +47,7 @@ function Upload() {
             .then((resp) => {
                 if (resp.data.success) {
                     alert("Video has been uploaded! Close this alert to see the video");
-                    navigate("/video/" + resp.data.id);
+                    window.location.href = "/";
                 } else {
                     alert(resp.data.message);
                 }

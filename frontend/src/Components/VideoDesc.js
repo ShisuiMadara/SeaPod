@@ -1,18 +1,17 @@
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { Box, Button, Chip, Divider, Grid, IconButton, Paper, Stack, Typography } from "@mui/material";
+import { Box, Button, Divider, Grid, Paper, Stack, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import ShareIcon from '@mui/icons-material/Share';
-import { HorizontalRule } from '@mui/icons-material';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 function VideoDesc(props){
-    const [views, setViews] = useState(props.views);
     const [likes, setLikes] = useState("");
     const [liked, setLiked] = useState(false)
     const navigate = useNavigate();
-    const {videoid} = useParams();
+    const {videoData} = useParams();
+    const videoid = JSON.parse(videoData)._id;
     function likeHandler(){
         if (!localStorage.getItem('token')){
             navigate('/login/redir');
@@ -38,13 +37,11 @@ function VideoDesc(props){
     }
     useEffect(()=>{
         if (!localStorage.getItem('token')){
-            // navigate('/login/redir');
             return;
         }
         axios.post('http://localhost:5000/like', {token: localStorage.getItem('token'), videoid: videoid, action: "get"}).then((resp)=>{
             if (resp.status == 200){
                 setLiked(resp.data.liked);
-                console.log(resp.data.liked);
             }
         }).catch((e)=>{
             console.log(e.response.data);
@@ -55,7 +52,7 @@ function VideoDesc(props){
         setLikes(props.likes);
     },[props])
     return(
-        <Paper sx={{width:'90%', mx:'auto', my:2, backgroundColor:'whitesmoke'}}>
+        <Paper className='rounded-lg' sx={{width:'90%', mx:'auto', my:2, backgroundColor:'whitesmoke'}}>
             <Box sx={{p:4}}>
                 <Typography variant="h5" align="left" mb={2}>
                     {props.title}

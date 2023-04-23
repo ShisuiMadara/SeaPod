@@ -19,16 +19,16 @@ function App() {
             <NavBar />
             <Routes>
                 {localStorage.getItem("token") && jwt(localStorage.getItem("token")).admin ? (
-                    <Route path="/" element={<Home />} />
+                    <><Route path="/" element={<Home />} />
+                    <Route path="/video/:videoData" element={<Video />}>
+                    <Route index element={<Comments />} />
+                        <Route path=":commentid" element={<Replies />} />
+                    </Route></>
                 ) : (
                     <Route path="/" element={<Login />}>
                         <Route path="redir" element={<LoginErrCard />} />
                     </Route>
                 )}
-                <Route path="/video/:videoid" element={<Video />}>
-                    <Route index element={<Comments />} />
-                    <Route path=":commentid" element={<Replies />} />
-                </Route>
 
                 <Route path="/logout" element={<Logout />} />
                 <Route path="/account" element={<Account />} />

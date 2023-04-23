@@ -17,7 +17,7 @@ async function stream(req, res) {
     if (!client) {
         return;
     }
-    let db = client.db("seaPod");
+    let db = client.db("seapod");
     let col = db.collection("podcast");
     let col2 = db.collection("userViewPodcast");
 
@@ -32,21 +32,21 @@ async function stream(req, res) {
     const fn = filentry.fname;
     let isVideo = filentry.video;
     
-    const path = `files/${fn}.` + req.params.podcastType;
+    const path = `files/${fn}`;
     const stat = fs.statSync(path);
     const fileSize = stat.size;
     const range = req.headers.range;
     let dt  = new Date();    
-    const getInitSet = await col2.findOne({podcastId: req.params.podcastId, userId: req.user});
+    const getInitSet = await col2.findOne({podcastId: req.params.podcastId, userId: req.userId});
     if (!getInitSet){
         const data = {
             userId: req.userId,
-            podcastId: req.podcastId,
+            podcastId: req.params.podcastId,
             activeListen: true,
             like: false,
             position: 0,
             completed: false,
-            lastAccess: new TS(Date.now())
+            lastAccess: new TS({t: Math.round(dt.getTime()/1000), i: 0})
         }
         let initConf = await col2.insertOne(data);
         if (!initConf.acknowledged) {
@@ -56,7 +56,7 @@ async function stream(req, res) {
     }
     else {
         if (!getInitSet.activeListen){
-            let initConf = await col.updateOne({podcastId: req.params.podcastId, userId: req.user}, {$set: {activeListen: true, lastAccess: new TS(Math.round(dt.getTime()/1000))}});
+            let initConf = await col.updateOne({podcastId: req.params.podcastId, userId: req.userId}, {$set: {activeListen: true, lastAccess: new TS({t: Math.round(dt.getTime()/1000), i: 0})}});
             if (!initConf.acknowledged) {
                 res.send({success: false, message: "Server Error!"});
                 return;

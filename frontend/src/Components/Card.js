@@ -1,20 +1,21 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Flippy, { FrontSide, BackSide } from "react-flippy";
-import ReactPlayer from "react-player";
+import logo from "../assets/play.png";
 
 const CollapsibleCard = ({ data }) => {
     const ref = useRef();
-    console.log(data);
+    const [isLoading, setLoading] = useState(false);
+    const [hasEnded, setEnded] = useState(false);
     return (
         <div className="w-full">
             <Flippy
-                flipOnHover={true} // default false
                 flipOnClick={true} // default false
                 flipDirection="horizontal" // horizontal or vertical
                 ref={ref}
                 style={{ width: "100%", height: "200px" }}
             >
                 <FrontSide
+                    onClick={() => setLoading(true)}
                     style={{
                         backgroundColor: "rgb(45, 212, 191)",
                         borderRadius: "8px",
@@ -31,6 +32,7 @@ const CollapsibleCard = ({ data }) => {
                     </div>
                 </FrontSide>
                 <BackSide
+                    onClick={() => setLoading(false)}
                     style={{
                         backgroundColor: "rgb(56, 189, 248)",
                         borderRadius: "8px",
@@ -38,13 +40,16 @@ const CollapsibleCard = ({ data }) => {
                     }}
                 >
                     <div className="w-full h-full flex flex-row flex-wrap">
-                        <div className="w-full font-thin text-white bg-sky-600 italic h-full rounded p-1 overflow-ellipsis">
-                            <ReactPlayer
-                                controls={false}
-                                url={`localhost:5000/files/${data.fname}`}
-                                height={"auto"}
-                                width={"100%"}
-                            />
+                        <div className="w-full bg-sky-600 h-full rounded p-1 flex flex-row justify-center">
+                            {isLoading && !hasEnded ? <video className="bg-black bg-opacity-50 rounded h-full w-auto" onTimeUpdate={(event) => {
+                                if (event.target.currentTime >= 10) {
+                                    event.target.pause();
+                                    setEnded(true);
+                                }
+                            }} autoPlay><source src={`http://localhost:5000/stream/${data._id}`} /></video> : <></>}
+                            {isLoading && hasEnded ? <div onClick={() => {window.location.href = `/video/${JSON.stringify(data)}`}} className="w-full h-full z-10 rounded bg-black bg-opacity-50 flex flex-row justify-center p-2">
+                                <img src={logo} className="h-full w-auto" />
+                            </div> : <></>}
                         </div>
                     </div>
                 </BackSide>

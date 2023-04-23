@@ -96,7 +96,7 @@ function Login() {
             <Stack
                 className="lg:w-2/3 w-full"
                 height={"100%"}
-                sx={{ mt: "auto", overflow: "scroll" }}
+                sx={{ mt: "auto" }}
                 justifyContent={"center"}
                 direction={"column"}
             >

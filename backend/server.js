@@ -58,7 +58,7 @@ app.post("/replies", (req, res) => {
 });
 
 const stream = require("./API/stream");
-app.get("/stream/:videoid", (req, res) => {
+app.get("/stream/:podcastId", require('./API/jwtmiddle').jwtMiddleware, (req, res) => {
     stream.x(req, res);
 });
 

@@ -107,7 +107,7 @@ app.post("/clearnotif", authmiddleware.x, (req, res) => {
 });
 
 const getbest = require("./API/getBest");
-app.post("/getBest", jwtMiddleware, (req, res) => {
+app.post("/api/getBest", jwtMiddleware, (req, res) => {
     getbest.execute(req, res);
 });
 

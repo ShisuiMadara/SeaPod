@@ -27,6 +27,7 @@ async function getPodcastData(req, res) {
 
     let db = client.db("seapod");
     let col = db.collection("podcast");
+    let col2 = db.collection("userViewPodcast");
 
     var data
 
@@ -43,6 +44,15 @@ async function getPodcastData(req, res) {
         return
     }
 
+    for (var i = 0; i < data.length; i++){
+        var pos = 0;
+        let zdata = await col2.findOne({userId: req.userId, podcastId: data[i]._id.toString()}, {projection: {position: 1}});
+        if (!zdata){
+            pos = 0;
+        }
+        else pos = zdata.position;
+        data[i].position = pos;
+    }
     client.close()
 
     res.status(200).send({

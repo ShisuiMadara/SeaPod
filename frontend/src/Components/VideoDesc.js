@@ -7,7 +7,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 function VideoDesc(props) {
-    const [likes, setLikes] = useState("");
+    const [likes, setLikes] = useState(0);
     const [liked, setLiked] = useState(false);
     const navigate = useNavigate();
     const { videoData } = useParams();
@@ -54,9 +54,6 @@ function VideoDesc(props) {
                 console.log(e.response.data);
             });
     }, []);
-    useEffect(() => {
-        setLikes(props.likes);
-    }, [props]);
     return (
         <Paper
             className="rounded-lg"

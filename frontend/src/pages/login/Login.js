@@ -12,7 +12,6 @@ import {
 import axios from "axios";
 import jwt from "jwt-decode";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import logo from "../../assets/podcast.jpeg";
 
 function Login() {
@@ -28,13 +27,6 @@ function Login() {
     const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
     const passwordRegex =
         /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
-    const navigate = useNavigate();
-    useEffect(() => {
-        if (localStorage.getItem("token")) {
-            navigate("/");
-        }
-    });
 
     function login() {
         axios

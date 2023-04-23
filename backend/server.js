@@ -37,11 +37,6 @@ app.get("/getvideos", (req, res) => {
     getvids.x(req, res);
 });
 
-const getPodCastData = require("./API/getpodcastdata");
-app.get("/api/getpodcastdata", (req, res) => {
-    getPodCastData.execute(req, res);
-});
-
 const s = require("./API/signup");
 app.post("/api/signup", (req, res) => {
     s.signup(req, res);
@@ -76,6 +71,11 @@ app.post("/reply", authmiddleware.x, (req, res) => {
     reply.x(req, res);
 });
 
+const updtPos = require('./API/updatets').x;
+app.post('/api/updatepos', jwtMiddleware, (req, res)=>{
+    updtPos(req, res);
+})
+
 const isLiked = require("./API/isLiked").x;
 app.post('/api/isliked', jwtMiddleware, (req, res)=>{
     isLiked(req, res);
@@ -105,6 +105,21 @@ const clearnotif = require("./API/clearnotif");
 app.post("/clearnotif", authmiddleware.x, (req, res) => {
     clearnotif.x(req, res);
 });
+
+const getbest = require("./API/getBest");
+app.post("/api/getBest", jwtMiddleware, (req, res) => {
+    getbest.execute(req, res);
+});
+
+const getPodCastData = require("./API/getpodcastdata").execute;
+app.post('/api/getpodcastdata', jwtMiddleware, (req, res)=>{
+    getPodCastData(req, res);
+});
+
+const getRecentListen = require("./API/getRecentListen").execute;
+app.post("/api/getrecentlisten", jwtMiddleware, (req, res)=>{
+    getRecentListen(req, res);
+})
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);

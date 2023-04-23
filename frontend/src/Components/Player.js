@@ -4,28 +4,36 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 function Player() {
-    const { videoData } = useParams();
-    const videoid = JSON.parse(videoData)._id;
+    let { videoData } = useParams();
+    videoData = JSON.parse(videoData);
+    const videoid = videoData._id;
     useEffect(() => {
         const element = document.getElementById("videoPlayer");
         element.currentTime = videoData.position;
-        element.play();
         const timeLineUpdater = setInterval(() => {
-            axios.post(
-                "http://localhost:5000/api/updatepos",
-                {
-                    podcastId: videoid,
-                    position: element.currentTime,
-                },
-                { headers: { Authorization: `bearer ${localStorage.getItem("token")}` } },
-            );
+            axios
+                .post(
+                    "http://localhost:5000/api/updatepos",
+                    {
+                        podcastId: videoid,
+                        position: element.currentTime,
+                    },
+                    { headers: { Authorization: `bearer ${localStorage.getItem("token")}` } },
+                )
+                .then((res) => {
+                    if (res.data.success) {
+                        console.log(`Updated Time on server to ${element.currentTime}`);
+                    } else {
+                        console.log(`Update Failed.`);
+                    }
+                });
         }, 15000);
         window.onunload = () => {
             clearInterval(timeLineUpdater);
-        }
+        };
         return () => {
             clearInterval(timeLineUpdater);
-        }
+        };
     }, []);
     return (
         <Box sx={{ height: "100%", width: "100%" }}>
@@ -39,6 +47,7 @@ function Player() {
                     width: "100%",
                     height: "100%",
                 }}
+                autoPlay={true}
             >
                 <source src={"http://localhost:5000/stream/" + videoid}></source>
             </video>

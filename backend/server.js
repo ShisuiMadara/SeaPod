@@ -112,7 +112,7 @@ app.post("/api/getBest", jwtMiddleware, (req, res) => {
 });
 
 const getPodCastData = require("./API/getpodcastdata").execute;
-app.post('/api/getpodcastdata', jwtMiddleware, (req, res)=>{
+app.get('/api/getpodcastdata', jwtMiddleware, (req, res)=>{
     getPodCastData(req, res);
 });
 

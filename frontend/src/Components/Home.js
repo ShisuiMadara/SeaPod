@@ -4,13 +4,14 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Carousel } from "react-material-ui-carousel";
 import CollapsibleCard from "./Card";
 
-
 function Home() {
     const [data, setData] = useState([]);
     const [isLoading, setLoading] = useState(false);
     useEffect(() => {
         axios
-            .get("http://localhost:5000/api/getpodcastdata")
+            .get("http://localhost:5000/api/getpodcastdata", {
+                headers: { Authorization: `bearer ${localStorage.getItem("token")}` },
+            })
             .then((resp) => {
                 if (resp.data.success) {
                     let dat = resp.data.data;

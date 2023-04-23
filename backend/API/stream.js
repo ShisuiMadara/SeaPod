@@ -85,7 +85,7 @@ async function stream(req, res) {
             "Content-Type": "video/mp4",
         };
         if (end == fileSize - 1) {
-            await collection.updateOne({ userId: userId }, { $set: { completed: true } }, (err, result) => {
+            await col2.updateOne({ userId: userId }, { $set: { completed: true } }, (err, result) => {
                 if (err){
                     res.status(200).send({
                         success: false, 

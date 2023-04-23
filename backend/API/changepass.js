@@ -20,13 +20,16 @@ async function change(req, res) {
 
     let usersp = await col.findOne({ user: req.user, password: req.body.currpass });
     if (!usersp) {
+        client.close()
         res.status(401).send("Current Password Mismatched");
         return;
     }
     let users = await col.updateOne({ user: req.user }, { $set: { password: req.body.newpass } });
     if (users.acknowledged) {
+        client.close()
         res.status(200).send("Password Changed");
     } else {
+        client.close()
         res.sendStatus(500);
     }
 }

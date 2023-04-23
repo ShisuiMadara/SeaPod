@@ -22,14 +22,17 @@ async function login(req, res) {
 
     let usr = await col.findOne({email: req.body.email}, {projection:{passHash: 1, admin: 1, email:1, userId: 1}});
     if (!usr) {
+        client.close()
         res.send({success: false, message: "User Not Found!"});
         return;
     }
     let cmpr = await bcrypt.compare(req.body.password, usr.passHash);
     if (!cmpr){
+        client.close()
         res.send({success: false, message: "Password Mismatch!"});
         return;
     }
+    client.close()
     res.send({success: true, token: genToken(usr)});
 }
 

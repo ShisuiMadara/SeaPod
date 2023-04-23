@@ -17,6 +17,8 @@ async function get(req, res) {
         res.status(404).send("Nothing Found");
         return;
     }
+    client.close()
     res.status(200).send({ data: result });
+    
 }
 exports.x = get;

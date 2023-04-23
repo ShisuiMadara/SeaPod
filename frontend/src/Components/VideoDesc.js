@@ -26,6 +26,7 @@ function VideoDesc(props) {
             .then((res) => {
                 if (res.data.success) {
                     setLiked(res.data.liked);
+                    setLikes(res.data.likes);
                 }
             });
     }
@@ -46,6 +47,7 @@ function VideoDesc(props) {
             .then((resp) => {
                 if (resp.data.success) {
                     setLiked(resp.data.liked);
+                    setLikes(resp.data.likes);
                 }
             })
             .catch((e) => {

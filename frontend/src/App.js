@@ -18,7 +18,7 @@ function App() {
         <div className="App bg-sky-50">
             <NavBar />
             <Routes>
-                {localStorage.getItem("token") && jwt(localStorage.getItem("token")).admin ? (
+                {localStorage.getItem("token") && jwt(localStorage.getItem("token")) ? (
                     <><Route path="/" element={<Home />} />
                     <Route path="/video/:videoData" element={<Video />}>
                     <Route index element={<Comments />} />

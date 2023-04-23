@@ -76,9 +76,14 @@ app.post("/reply", authmiddleware.x, (req, res) => {
     reply.x(req, res);
 });
 
-const like = require("./API/like");
-app.post("/like", authmiddleware.x, (req, res) => {
-    like.x(req, res);
+const isLiked = require("./API/isLiked").x;
+app.post('/api/isliked', jwtMiddleware, (req, res)=>{
+    isLiked(req, res);
+})
+
+const like = require("./API/like").x;
+app.post("/api/like", jwtMiddleware, (req, res) => {
+    like(req, res);
 });
 
 const changepass = require("./API/changepass");

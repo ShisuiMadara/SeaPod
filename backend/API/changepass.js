@@ -15,13 +15,14 @@ async function change(req, res) {
     }
     let db = client.db("seapod")
     let col = db.collection("users")
-
+    const user = await collection.findOne({ userId: req.userId })
+    let currPassHash = user.password
     var updated_user 
 
     if (req.body.newPassword) {
         
-        var passHash = bcrypt.hash(req.body.password, 10)
-        const match = await bcrypt.compare(req.body.password, passHash)
+        var PassHashProvided = bcrypt.hash(req.body.password, 10)
+        const match = await bcrypt.compare(currPassHash, await PassHashProvided)
 
         if(!match) {
             client.close()
@@ -32,14 +33,14 @@ async function change(req, res) {
             return 
         }
 
-        passHash = bcrypt.hash(req.body.newPassword, 10)
+        var newPassHash = bcrypt.hash(req.body.newPassword, 10)
 
-        updated_user = await col.updateOne({ user: req.user }, { $set: { password: passHash} })
+        updated_user = await col.updateOne({ user: req.userId }, { $set: { password: await newPassHash} })
     }
     
     if (req.body.newGenre) {
 
-        updated_user = await col.updateOne({user: req.user}, {$set: {genre: req.body.newGenre}})
+        updated_user = await col.updateOne({user: req.userId}, {$set: {genre: req.body.newGenre}})
     }   
     
     client.close()

@@ -20,7 +20,7 @@ async function login(req, res) {
     let db = client.db("seapod");
     let col = db.collection("user");    
 
-    let usr = await col.findOne({email: req.body.email}, {projection:{passHash: 1, admin: 1, email:1, userId: 1}});
+    let usr = await col.findOne({email: req.body.email});
     if (!usr) {
         client.close()
         res.send({success: false, message: "User Not Found!"});
@@ -37,7 +37,7 @@ async function login(req, res) {
 }
 
 function genToken(data){
-    return jwt.sign({email: data.email, userId: data.userId, admin: data.admin}, process.env.TOKEN_SECRET);
+    return jwt.sign({...data}, process.env.TOKEN_SECRET);
 }
 
 exports.login = login;

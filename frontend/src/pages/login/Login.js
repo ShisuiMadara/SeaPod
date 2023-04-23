@@ -79,17 +79,29 @@ function Login() {
     return (
         <div className="flex w-full lg:flex-row flex-col" style={{ height: "93vh" }}>
             <div className="lg:w-1/3 w-full p-5 pb-1">
+                <div className="text-5xl font-serif text-sky-800 w-full justify-center flex flex-row">
+                    SEAPOD
+                 </div>
+                
+                 <div className="text-3xl font-serif text-sky-400 w-full justify-center flex flex-row">
+                        Dive into the world of podcasts. 
+                </div>
+
                 <div className="flex flex-col h-full justify-center w-full">
-                    <div className="text-5xl font-serif text-sky-800 w-full justify-center flex flex-row">
-                        SEAPOD
-                    </div>
-                    <div className="justify-center flex flex-row w-full p-2 pt-5">
+                    
+                    <div className="justify-center flex flex-row w-full p-4 pt-5">
                         <div
                             className="rounded-full overflow-hidden"
-                            style={{ height: "250px", width: "300px" }}
+                            style={{ height: "550px", width: "500px" }}
                         >
                             <img src={logo} width={"100%"} height={"auto"} alt={"podcast"} />
                         </div>
+                    </div>
+
+                    <div className="text-3xl font-serif text-sky-400 w-full justify-center flex flex-row">
+                        Relax with some ASMRs. <br/>
+                        Go down the road with Historians. or <br/>
+                        Solve a mystery with Sherlock.
                     </div>
                 </div>
             </div>

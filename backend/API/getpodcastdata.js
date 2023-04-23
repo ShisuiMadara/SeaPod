@@ -4,11 +4,11 @@ var url =
 var ObjectID = require("mongodb").ObjectId;
 
 async function getPodcastData(req, res) {
-    
+
     const client = await MongoClient.connect(url, { useNewUrlParser: true }).catch((err) => {
         res.send({
             success: false,
-            msg: err
+            msg: err.message
         })
         return
     });
@@ -16,12 +16,12 @@ async function getPodcastData(req, res) {
     if (!client) {
 
         client.close()
-        
+
         res.send({
             success: false,
-            msg: err 
+            msg: err.message
         })
-      
+
         return;
     }
 
@@ -29,16 +29,16 @@ async function getPodcastData(req, res) {
     let col = db.collection("podcast");
 
     var data
-    
+
     try{
-        data = await col.find().toArray() 
+        data = await col.find().toArray()
     }catch(err){
 
         client.close()
 
         res.send({
             success: false,
-            msg: err
+            msg: err.message
         })
         return
     }
@@ -47,9 +47,9 @@ async function getPodcastData(req, res) {
 
     res.status(200).send({
         success: true,
-        msg: data
+        data: data
     })
-    
+
 }
 
 exports.execute = getPodcastData

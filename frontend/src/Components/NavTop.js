@@ -86,7 +86,12 @@ function ProfileButton() {
                     </Menu>
                 </>
             ) : (
-                <button className="p-2 rounded pl-5 pr-5 bg-sky-500 hover:bg-sky-700" onClick={() => handleMenuPress("/login")}>Login</button>
+                <button
+                    className="p-2 rounded pl-5 pr-5 bg-sky-500 hover:bg-sky-700"
+                    onClick={() => handleMenuPress("/")}
+                >
+                    Login
+                </button>
             )}
         </Box>
     );

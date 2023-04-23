@@ -37,9 +37,9 @@ app.get("/getvideos", (req, res) => {
     getvids.x(req, res);
 });
 
-const getvid = require("./API/getvideo");
-app.post("/getvideo", (req, res) => {
-    getvid.x(req, res);
+const getPodCastData = require("./API/getpodcastdata");
+app.get("/api/getpodcastdata", (req, res) => {
+    getPodCastData.execute(req, res);
 });
 
 const s = require("./API/signup");

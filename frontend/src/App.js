@@ -5,7 +5,7 @@ import Comments from "./Components/Comments";
 import Replies from "./Components/Replies";
 import Video from "./Components/Video";
 import { Route, Routes } from "react-router-dom";
-import Login from "./Components/Login";
+import Login from "./pages/login/Login";
 import Logout from "./Components/Logout";
 import LoginErrCard from "./Components/LoginErrCard";
 import Account from "./Components/Account";
@@ -15,17 +15,21 @@ import NoPage from "./pages/nopage/nopage";
 
 function App() {
     return (
-        <div className="App">
+        <div className="App bg-sky-50">
             <NavBar />
             <Routes>
-                <Route path="/" element={<Home />} />
+                {localStorage.getItem("token") && jwt(localStorage.getItem("token")).admin ? (
+                    <Route path="/" element={<Home />} />
+                ) : (
+                    <Route path="/" element={<Login />}>
+                        <Route path="redir" element={<LoginErrCard />} />
+                    </Route>
+                )}
                 <Route path="/video/:videoid" element={<Video />}>
                     <Route index element={<Comments />} />
                     <Route path=":commentid" element={<Replies />} />
                 </Route>
-                <Route path="/login" element={<Login />}>
-                    <Route path="redir" element={<LoginErrCard />} />
-                </Route>
+
                 <Route path="/logout" element={<Logout />} />
                 <Route path="/account" element={<Account />} />
                 {localStorage.getItem("token") && jwt(localStorage.getItem("token")).admin ? (

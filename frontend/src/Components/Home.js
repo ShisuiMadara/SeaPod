@@ -1,37 +1,38 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Box, Grid} from "@mui/material";
-import HomeCard from "./HomeCard";
+import CollapsibleCard from "./Card";
 
-const baseurl = "http://localhost:5000/getvideos"
-
-function Home(){
-    const [data, setData] = useState([])
-    useEffect(()=>{
-        axios.get(baseurl).then((resp)=>{
-            if (resp.status == 200){
-                let dat = resp.data.data;
-                dat.reverse();
-                setData(dat);
-            }
-        })
-    }, []);
-
-    return(
-        <Box sx={{overflowY: 'scroll', my: 5, mx: {xs:2, md: 10}}}>
-            <Grid container>
-                {
-                    data.map((dat)=>{
-                        return(
-                            <Grid item xs={12} md={4} lg={3} sm={6}>
-                                <HomeCard data={dat}/>
-                            </Grid>
-                        );
-                    })
+function Home() {
+    const [data, setData] = useState([]);
+    const [isLoading, setLoading] = useState(false);
+    useEffect(() => {
+        axios
+            .get("http://localhost:5000/api/getpodcastdata")
+            .then((resp) => {
+                if (resp.data.success) {
+                    let dat = resp.data.data;
+                    dat.reverse();
+                    setData(dat);
+                    setLoading(true);
                 }
-            </Grid>
-        </Box>
+            })
+            .catch((err) => alert(err));
+    }, []);
+    if (!isLoading) {
+        return <>Loading video data...</>;
+    }
+
+    return (
+        <div className=" w-full h-full p-2 overflow-y-scroll flex flex-row flex-wrap justify-evenly">
+            {data.map((dat, index) => {
+                return (
+                    <div item className="p-3 w-96" key={`video#${index}`}>
+                        <CollapsibleCard data={dat} />
+                    </div>
+                );
+            })}
+        </div>
     );
 }
 
-export default Home
+export default Home;

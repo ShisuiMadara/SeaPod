@@ -1,6 +1,7 @@
 var MongoClient = require("mongodb").MongoClient;
 var url =
     "mongodb://default:76VdQ34wZzBtt3MY@ac-qvcvywt-shard-00-00.lwxcedr.mongodb.net:27017,ac-qvcvywt-shard-00-01.lwxcedr.mongodb.net:27017,ac-qvcvywt-shard-00-02.lwxcedr.mongodb.net:27017/?ssl=true&replicaSet=atlas-vjhen2-shard-0&authSource=admin&retryWrites=true&w=majority";
+const ObjectId = require("mongodb").ObjectId;
 
 async function getRecentListen (req, res) {
     const client = await MongoClient.connect(url, { useNewUrlParser: true }).catch((err) => {
@@ -10,15 +11,12 @@ async function getRecentListen (req, res) {
         })
         return
     });
-
-   
     let db = client.db("seapod");
     let col = db.collection("userViewPodcast");
-
+    let col2 = db.collection("podcast");
     let result
-    
     try {
-        result = await col.find({"userId": req.userId});
+        result = await col.find({"userId": req.userId, activeListen: true}, {projection: {position: 1, podcastId: 1}}).limit(10).sort({lastAccess: -1}).toArray();
     } catch (err) {
         res.send({
             success: false,
@@ -27,7 +25,11 @@ async function getRecentListen (req, res) {
         client.close()
         return
     }
-    
+    for(var i = 0; i < result.length; i++){
+        let dt = await col2.findOne({_id: new ObjectId(result[i].podcastId)});
+        result[i] = {...result[i], ...dt}
+        delete result[i].podcastId
+    }
     client.close()
     
     res.status(200).send({

@@ -116,6 +116,11 @@ app.post('/api/getpodcastdata', jwtMiddleware, (req, res)=>{
     getPodCastData(req, res);
 });
 
+const getRecentListen = require("./API/getRecentListen").execute;
+app.post("/api/getrecentlisten", jwtMiddleware, (req, res)=>{
+    getRecentListen(req, res);
+})
+
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });

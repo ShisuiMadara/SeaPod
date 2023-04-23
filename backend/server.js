@@ -17,7 +17,7 @@ const multerStorage = multer.diskStorage({
     },
     filename: (req, file, cb) => {
         var namef = Date.now().toString() + "-" + req.userId;
-        let ext = req.body.video=="yes"?"mp4":"mp3";
+        let ext = req.body.video==="yes"?"mp4":"mp3";
         cb(null, `${namef}.${ext}`);
     },
 });

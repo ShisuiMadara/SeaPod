@@ -128,7 +128,7 @@ function NavBar() {
                             fontFamily: "serif",
                         }}
                     >
-                        SEA POD
+                        SEAPOD
                     </Typography>
 
                     <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>

@@ -9,9 +9,9 @@ import Login from "./Components/Login";
 import Logout from "./Components/Logout";
 import LoginErrCard from "./Components/LoginErrCard";
 import Account from "./Components/Account";
-import Upload from "./Components/Upload.js";
-import Card from "./Components/Card"
-
+import Upload from "./pages/upload/Upload.js";
+import jwt from "jwt-decode";
+import NoPage from "./pages/nopage/nopage";
 
 function App() {
     return (
@@ -28,8 +28,12 @@ function App() {
                 </Route>
                 <Route path="/logout" element={<Logout />} />
                 <Route path="/account" element={<Account />} />
-                <Route path="/upload" element={<Upload />} />
-                <Route path="/card" element={<Card />}></Route>
+                {localStorage.getItem("token") && jwt(localStorage.getItem("token")).admin ? (
+                    <Route path="/upload" element={<Upload />} />
+                ) : (
+                    <></>
+                )}
+                <Route path="*" element={<NoPage />} />
             </Routes>
         </div>
     );

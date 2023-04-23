@@ -4,7 +4,7 @@ var url =
 var ObjectID = require("mongodb").ObjectId;
 var TS = require('mongodb').Timestamp;
 
-async function isLiked(){
+async function isLiked(req, res){
     if (!req.body.podcastId) {
         res.sendStatus(400);
     }
@@ -24,3 +24,4 @@ async function isLiked(){
     }
     else res.send({success: true, liked: getInitData.liked});
 }
+exports.x = isLiked;

@@ -39,7 +39,7 @@ async function change(req, res) {
 
         var newPassHash = bcrypt.hash(req.body.newPassword, 10)
 
-        updated_user = await col.updateOne({ user: req.userId }, { $set: { password: await newPassHash} })
+        updated_user = await col.updateOne({ user: req.user }, { $set: { password: passHash} })
     }
     
     if (req.body.newGenre) {

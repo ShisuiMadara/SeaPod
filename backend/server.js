@@ -106,6 +106,12 @@ app.post("/clearnotif", authmiddleware.x, (req, res) => {
     clearnotif.x(req, res);
 });
 
+const getbest = require("./API/getBest");
+app.post("/getBest", jwtMiddleware, (req, res) => {
+    getbest.execute(req, res);
+});
+
+
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });

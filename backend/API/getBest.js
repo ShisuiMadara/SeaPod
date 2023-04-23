@@ -35,16 +35,7 @@ async function getBest(req, res) {
     var result = []
 
     try{
-        data = await col.find().toArray()
-
-        for (var i = 0; i<data.length(); ++i) {
-            for(var j = 0; j<user_genre.length(); ++j) {
-                if(data[i].genre === user_genre[j]) {
-                    result.push(data[i])
-                    break
-                }
-            }
-        }
+        data = await col.find({ genre: { $in: req.genre } }).toArray()
 
         result.sort((a, b) => b.likes - a.likes);
     }catch(err){

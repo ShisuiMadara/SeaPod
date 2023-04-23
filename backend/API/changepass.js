@@ -20,7 +20,6 @@ async function change(req, res) {
 
     if (req.body.newPassword) {
         
-        var passHash = bcrypt.hash(req.body.password, 10)
         const match = await bcrypt.compare(req.body.password, passHash)
 
         if(!match) {
@@ -34,7 +33,7 @@ async function change(req, res) {
 
         passHash = bcrypt.hash(req.body.newPassword, 10)
 
-        updated_user = await col.updateOne({ user: req.user }, { $set: { password: passHash} })
+        updated_user = await col.updateOne({ user: req.user }, { $set: { password: await passHash} })
     }
     
     if (req.body.newGenre) {

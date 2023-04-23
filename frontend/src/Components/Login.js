@@ -21,12 +21,20 @@ function Login() {
     const [name, setName] = useState("");
     const [genre, setGenre] = useState([]);
     const [isLogin, setLogin] = useState(true);
+    const [isEmailValid, checkEmail] = useState(false)
+    const [isPasswordValid, checkPass] = useState(false)
+
+    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+
     const navigate = useNavigate();
     useEffect(() => {
         if (localStorage.getItem("token")) {
             navigate("/");
         }
     });
+
 
     function login() {
         axios
@@ -46,27 +54,28 @@ function Login() {
                 alert(e.message);
             });
     }
-
+    
     function signup() {
+      
         axios
-            .post("http://localhost:5000/api/signup", {
-                userId: user,
-                password: pass,
-                name: name,
-                email: email,
-                genre: genre,
-            })
-            .then((resp) => {
-                if (resp.data.success) {
-                    login();
-                } else {
-                    alert(resp.data.message);
-                }
-            })
-            .catch((e) => {
-                alert(e.response.data);
-            });
-    }
+          .post("http://localhost:5000/api/signup", {
+            userId: user,
+            password: pass,
+            name: name,
+            email: email,
+            genre: genre,
+          })
+          .then((resp) => {
+            if (resp.data.success) {
+              login();
+            } else {
+              alert(resp.data.message);
+            }
+          })
+          .catch((e) => {
+            alert(e.response.data);
+          });
+      }
 
     return (
         <Stack
@@ -111,23 +120,29 @@ function Login() {
                             ) : (
                                 <></>
                             )}
+                            
                             <Stack className="p-3">
                                 <TextField
-                                    label="Email"
-                                    type="email"
-                                    color={email === "" ? "error" : "primary"}
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    sx={{ mx: 2, backgroundColor: "white" }}
+                                label="Email"
+                                type="email"
+                                color={isEmailValid === false ? "error" : "primary"}
+                                value={email}
+                                onChange={(e) => {setEmail(e.target.value); 
+                                                    if(emailRegex.test(e.target.value))checkEmail(true)
+                                                    else checkEmail(false)}}
+                                sx={{ mx: 2, backgroundColor: "white" }}
                                 />
+                               
                             </Stack>
                             <Stack className="p-3">
                                 <TextField
                                     label="Password"
                                     type="password"
-                                    color={pass === "" ? "error" : "primary"}
+                                    color={isPasswordValid === false ? "error" : "primary"}
                                     value={pass}
-                                    onChange={(e) => setPass(e.target.value)}
+                                    onChange={(e) => {setPass(e.target.value); 
+                                                        if(passwordRegex.test(e.target.value))checkPass(true)
+                                                        else checkPass(false)}}
                                     sx={{ mx: 2, backgroundColor: "white" }}
                                 />
                             </Stack>

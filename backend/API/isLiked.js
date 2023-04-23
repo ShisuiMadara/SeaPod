@@ -18,10 +18,16 @@ async function isLiked(req, res){
     let dt = new Date();
     let db = client.db("seapod");
     let col = db.collection("userViewPodcast")
+    let col2 = db.collection("podcast")    
     let getInitData = await col.findOne({userId: req.userId, podcastId: req.body.podcastId});
-    if (!getInitData) {
-        res.send({success: true, liked: false})
+    updtlk = await col2.findOne({_id: new ObjectID(req.body.podcastId)}, {projection: {likes: 1}});
+    if (!updtlk){
+        res.send({message: "Server Error!", success: false});
+        return;
     }
-    else res.send({success: true, liked: getInitData.liked});
+    if (!getInitData) {
+        res.send({success: true, liked: false, likes: updtlk.likes})
+    }
+    else res.send({success: true, liked: getInitData.liked, likes: updtlk.likes});
 }
 exports.x = isLiked;

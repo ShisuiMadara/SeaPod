@@ -76,6 +76,11 @@ app.post("/reply", authmiddleware.x, (req, res) => {
     reply.x(req, res);
 });
 
+const updtPos = require('./API/updatets').x;
+app.post('/api/updatepos', jwtMiddleware, (req, res)=>{
+    updtPos(req, res);
+})
+
 const isLiked = require("./API/isLiked").x;
 app.post('/api/isliked', jwtMiddleware, (req, res)=>{
     isLiked(req, res);

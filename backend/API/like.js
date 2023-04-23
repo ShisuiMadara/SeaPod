@@ -18,6 +18,7 @@ async function like(req, res) {
     let dt = new Date();
     let db = client.db("seapod");
     let col = db.collection("userViewPodcast")
+    let col2 = db.collection("podcast")
     let getInitData = await col.findOne({userId: req.userId, podcastId: req.body.podcastId});
     if (!getInitData){
         const data = {
@@ -34,11 +35,21 @@ async function like(req, res) {
             res.send({message: "Server Error!", success: false});
             return;
         }
+        let updtlk = await col2.updateOne({_id: new ObjectID(req.body.podcastId)}, {$inc: {likes: 1}});
+        if (!updtlk.acknowledged){
+            res.send({message: "Server Error!", success: false});
+            return;
+        }
         res.send({success: true, liked: true});
         return;
     }
-    let conf = await col.updateOne({userId: req.userId, podcastId: req.podcastId}, {$set: {liked: !getInitData.liked}});
+    let conf = await col.updateOne({userId: req.userId, podcastId: req.body.podcastId}, {$set: {liked: getInitData.liked===true?false:true}});
     if (!conf.acknowledged){
+        res.send({message: "Server Error!", success: false});
+        return;
+    }
+    let updtlk = await col2.updateOne({_id: new ObjectID(req.body.podcastId)}, {$inc: {likes: getInitData.liked===true?-1:1}});
+    if (!updtlk.acknowledged){
         res.send({message: "Server Error!", success: false});
         return;
     }

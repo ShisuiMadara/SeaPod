@@ -10,7 +10,6 @@ import Logout from "./Components/Logout";
 import LoginErrCard from "./Components/LoginErrCard";
 import Account from "./Components/Account";
 import Upload from "./Components/Upload.js";
-import Notifications from "./Components/Notifications";
 import Card from "./Components/Card"
 
 
@@ -30,7 +29,6 @@ function App() {
                 <Route path="/logout" element={<Logout />} />
                 <Route path="/account" element={<Account />} />
                 <Route path="/upload" element={<Upload />} />
-                <Route path="/notifications" element={<Notifications />} />
                 <Route path="/card" element={<Card />}></Route>
             </Routes>
         </div>

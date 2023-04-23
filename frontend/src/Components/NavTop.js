@@ -10,21 +10,23 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AppBar from "@mui/material/AppBar";
 import { Link, useNavigate } from "react-router-dom";
+import jwt from "jwt-decode";
 
-const pages = [
-    ["Home 🏠", "/"],
-    ["Notifications 🔔", "/notifications"],
-    ["Upload ⬆️", "/upload"],
-];
-const settings3 = [
+let page = [["Home 🏠", "/"]];
+if (localStorage.getItem("token") && jwt(localStorage.getItem("token")).admin) {
+    page = [
+        ["Home 🏠", "/"],
+        ["Upload ⬆️", "/upload"],
+    ];
+}
+const settings = [
     ["Account", "/account"],
     ["Logout", "/logout"],
 ];
-const settings2 = [["Login", "/login"]];
 
 function ProfileButton() {
     const [anchorElUser, setAnchorElUser] = React.useState(null);
-    const [data, setData] = useState(settings2);
+    const [data, setData] = useState(settings);
     const navigate = useNavigate();
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
@@ -33,9 +35,7 @@ function ProfileButton() {
         setAnchorElUser(null);
     };
     const handleButtonPress = (event) => {
-        if (!localStorage.getItem("token")) {
-            setData(settings2);
-        } else setData(settings3);
+        setData(settings);
         handleOpenUserMenu(event);
     };
     const handleMenuPress = (dat) => {
@@ -44,51 +44,57 @@ function ProfileButton() {
 
     return (
         <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-                <button
-                    className="p-2 rounded pl-5 pr-5 bg-sky-500 hover:bg-sky-700"
-                    onClick={handleButtonPress}
-                >
-                    <Typography color={"white"} textAlign="center" textTransform={"none"}>
-                        Profile
-                    </Typography>
-                </button>
-            </Tooltip>
-            <Menu
-                sx={{ mt: "45px" }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-            >
-                {data.map((dat) => (
-                    <MenuItem
-                        key={dat[0]}
-                        onClick={(e) => {
-                            handleMenuPress(dat[1]);
-                            handleCloseUserMenu(e);
+            {localStorage.getItem("token") ? (
+                <>
+                    <Tooltip title="Open settings">
+                        <button
+                            className="p-2 rounded pl-5 pr-5 bg-sky-500 hover:bg-sky-700"
+                            onClick={handleButtonPress}
+                        >
+                            <Typography color={"white"} textAlign="center" textTransform={"none"}>
+                                Profile
+                            </Typography>
+                        </button>
+                    </Tooltip>
+                    <Menu
+                        sx={{ mt: "45px" }}
+                        id="menu-appbar"
+                        anchorEl={anchorElUser}
+                        anchorOrigin={{
+                            vertical: "top",
+                            horizontal: "right",
                         }}
+                        keepMounted
+                        transformOrigin={{
+                            vertical: "top",
+                            horizontal: "right",
+                        }}
+                        open={Boolean(anchorElUser)}
+                        onClose={handleCloseUserMenu}
                     >
-                        <Typography textAlign="center">{dat[0]}</Typography>
-                    </MenuItem>
-                ))}
-            </Menu>
+                        {data.map((dat) => (
+                            <MenuItem
+                                key={dat[0]}
+                                onClick={(e) => {
+                                    handleMenuPress(dat[1]);
+                                    handleCloseUserMenu(e);
+                                }}
+                            >
+                                <Typography textAlign="center">{dat[0]}</Typography>
+                            </MenuItem>
+                        ))}
+                    </Menu>
+                </>
+            ) : (
+                <button className="p-2 rounded pl-5 pr-5 bg-sky-500 hover:bg-sky-700" onClick={() => handleMenuPress("/login")}>Login</button>
+            )}
         </Box>
     );
 }
 
 function NavBar() {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
-    const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const pages = page;
     const navigate = useNavigate();
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);

@@ -1,5 +1,17 @@
-import { Card, CardContent, Grid, Stack, TextField } from "@mui/material";
+import {
+    Card,
+    CardContent,
+    FormControl,
+    FormHelperText,
+    Grid,
+    InputLabel,
+    MenuItem,
+    Select,
+    Stack,
+    TextField,
+} from "@mui/material";
 import axios from "axios";
+import jwt from "jwt-decode";
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 
@@ -8,6 +20,7 @@ function Login() {
     const [pass, setPass] = useState("");
     const [email, setEmail] = useState("");
     const [name, setName] = useState("");
+    const [genre, setGenre] = useState([]);
     const [isLogin, setLogin] = useState(true);
     const navigate = useNavigate();
     useEffect(() => {
@@ -21,17 +34,17 @@ function Login() {
             .post("http://localhost:5000/api/login", { email: email, password: pass })
             .then((resp) => {
                 if (resp.data.success) {
-                    localStorage.setItem("token", resp.data);
-                    localStorage.setItem("user", user);
+                    localStorage.setItem("token", resp.data.token);
+                    localStorage.setItem("user", jwt(resp.data.token).userId);
                     setUser("");
                     setPass("");
-                    navigate("/");
+                    window.location.href = "/";
                 } else {
                     alert(resp.data.message);
                 }
             })
             .catch((e) => {
-                alert(e.response.data);
+                alert(e.message);
             });
     }
 
@@ -42,7 +55,7 @@ function Login() {
                 password: pass,
                 name: name,
                 email: email,
-                genre: [],
+                genre: genre,
             })
             .then((resp) => {
                 if (resp.data.success) {
@@ -119,6 +132,28 @@ function Login() {
                                     sx={{ mx: 2, backgroundColor: "white" }}
                                 />
                             </Stack>
+                            {!isLogin ? (
+                                <Stack className="p-3">
+                                    <FormControl>
+                                        <InputLabel className="ml-4">Genre</InputLabel>
+                                        <Select
+                                            value={genre}
+                                            label="Genre"
+                                            onChange={(event) => setGenre(event.target.value)}
+                                            sx={{ mx: 2, backgroundColor: "white" }}
+                                            multiple={true}
+                                        >
+                                            <MenuItem value={"Educational"}>Educational</MenuItem>
+                                            <MenuItem value={"Devotional"}>Devotional</MenuItem>
+                                            <MenuItem value={"Adventure"}>Adventure</MenuItem>
+                                            <MenuItem value={"Interview"}>Interview</MenuItem>
+                                            <MenuItem value={"Story"}>Story</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </Stack>
+                            ) : (
+                                <></>
+                            )}
                             <Stack className="p-3">
                                 <div className="w-full p-2 flex justify-evenly">
                                     <div className="text-gray-600">

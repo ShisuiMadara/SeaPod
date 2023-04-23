@@ -6,7 +6,7 @@ function Logout(){
     useEffect(()=>{
         localStorage.removeItem('token');
         localStorage.removeItem('user');
-        navigate('/');
+        window.location.href = "/";
     }, [])
     return (<>Should be redirected!</>)
 }

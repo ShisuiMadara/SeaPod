@@ -42,11 +42,6 @@ app.post("/api/signup", (req, res) => {
     s.signup(req, res);
 });
 
-const ss = require("./API/getcomments");
-app.post("/comments", (req, res) => {
-    ss.getcomments(req, res);
-});
-
 const reps = require("./API/getreplies");
 app.post("/replies", (req, res) => {
     reps.get(req, res);
@@ -60,16 +55,6 @@ app.get("/stream/:podcastId", (req, res, next)=>{req.userId = "useless"; next();
 const authmiddleware = require("./API/authmiddle");
 const jwtMiddleware = require("./API/jwtmiddle").jwtMiddleware;
 const adminMiddleware = require("./API/adminmiddle").adminMiddleware;
-
-const comment = require("./API/comment");
-app.post("/comment", authmiddleware.x, (req, res) => {
-    comment.x(req, res);
-});
-
-const reply = require("./API/reply");
-app.post("/reply", authmiddleware.x, (req, res) => {
-    reply.x(req, res);
-});
 
 const updtPos = require('./API/updatets').x;
 app.post('/api/updatepos', jwtMiddleware, (req, res)=>{
@@ -94,16 +79,6 @@ app.post("/changepass", jwtMiddleware, (req, res) => {
 const upld = require("./API/upload");
 app.post("/api/upload", jwtMiddleware, adminMiddleware, upload.single("file"), (req, res) => {
     upld.x(req, res);
-});
-
-const getnotif = require("./API/getnotif");
-app.post("/getnotif", authmiddleware.x, (req, res) => {
-    getnotif.x(req, res);
-});
-
-const clearnotif = require("./API/clearnotif");
-app.post("/clearnotif", authmiddleware.x, (req, res) => {
-    clearnotif.x(req, res);
 });
 
 const getbest = require("./API/getBest");

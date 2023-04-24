@@ -30,7 +30,7 @@ function Login() {
 
     function login() {
         axios
-            .post("http://localhost:5000/api/login", { email: email, password: pass })
+            .post("http://seapod.centralindia.cloudapp.azure.com:5000/api/login", { email: email, password: pass })
             .then((resp) => {
                 if (resp.data.success) {
                     localStorage.setItem("token", resp.data.token);
@@ -49,7 +49,7 @@ function Login() {
 
     function signup() {
         axios
-            .post("http://localhost:5000/api/signup", {
+            .post("http://seapod.centralindia.cloudapp.azure.com:5000/api/signup", {
                 userId: user,
                 password: pass,
                 name: name,

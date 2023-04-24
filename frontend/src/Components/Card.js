@@ -62,7 +62,7 @@ const CollapsibleCard = ({ data }) => {
                                     }}
                                     autoPlay
                                 >
-                                    <source src={`http://localhost:5000/stream/${data._id}`} />
+                                    <source src={`http://seapod.centralindia.cloudapp.azure.com:5000/stream/${data._id}`} />
                                 </video>
                             ) : (
                                 <></>

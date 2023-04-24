@@ -17,7 +17,7 @@ const CollapsibleCard = ({ data }) => {
                 <FrontSide
                     onClick={() => setLoading(true)}
                     style={{
-                        backgroundColor: "rgb(45, 212, 191)",
+                        backgroundColor: "rgb(2, 132, 199)",
                         borderRadius: "8px",
                         boxShadow: "16px",
                     }}
@@ -36,7 +36,7 @@ const CollapsibleCard = ({ data }) => {
                                 <img src={logo} alt="play" height="auto" width="20px" />
                             </span>
                         </div>
-                        <div className="w-full font-thin text-white bg-teal-600 italic h-2/3 rounded p-1 overflow-ellipsis">
+                        <div className="w-full font-thin text-white bg-sky-900 italic h-2/3 rounded p-1 overflow-ellipsis">
                             {data.description}
                         </div>
                     </div>

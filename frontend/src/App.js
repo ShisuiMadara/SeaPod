@@ -19,6 +19,7 @@ function App() {
                 {localStorage.getItem("token") && jwt(localStorage.getItem("token")) ? (
                     <><Route path="/" element={<Home />} />
                     <Route path="/video/:videoData" element={<Video />}>
+                    
                     </Route></>
                 ) : (
                     <Route path="/" element={<Login />}>

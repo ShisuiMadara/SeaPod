@@ -51,11 +51,11 @@ function Home() {
         return <>Loading video data...</>;
     }
     return (
-        <>
+        <div style={{background: 'linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(9,37,121,1) 0%, rgba(0,212,255,1) 100%)'}}>
             <Carousell data={carouselData} />
             {viewed.length ? (
                 <div className="w-full p-2">
-                    <div className="text-2xl w-full text-left font-semibold italic underline">
+                    <div className="text-2xl w-fit p-3 text-left font-semibold italic bg-sky-100 shadow-xl rounded">
                         Start From Where You Left
                     </div>
                     <div className="w-full overflow-scroll whitespace-nowrap">
@@ -81,8 +81,8 @@ function Home() {
                     return <></>;
                 }
                 return (
-                    <div className="w-full p-2" key={`genre#${genre}${index}`}>
-                        <div className="w-full text-left">
+                    <div className={`w-full p-2`} key={`genre#${genre}${index}`}>
+                        <div className={`w-fit p-3 text-left bg-sky-${300 + (index * 100)} shadow-xl rounded`}>
                             <span className="text-3xl font-semibold italic mr-3">{genre}</span>
                             <sub>Recommended For You</sub>
                         </div>
@@ -103,7 +103,7 @@ function Home() {
                 );
             })}
             <div className="w-full p-2">
-                <div className="text-2xl w-full text-left font-semibold italic underline">
+                <div className="text-2xl w-fit p-3 rounded text-left font-semibold italic bg-sky-900 shadow-xl text-white">
                     Explore New Podcasts
                 </div>
                 <div className="w-full flex flex-row flex-wrap justify-evenly">
@@ -119,7 +119,7 @@ function Home() {
                     })}
                 </div>
             </div>
-        </>
+        </div>
     );
 }
 

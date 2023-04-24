@@ -8,6 +8,7 @@ var url =
 var ObjectID = require("mongodb").ObjectId;
 const Chunk = 1000000;
 var TS = require('mongodb').Timestamp;
+const pth = require('path');
 
 async function stream(req, res) {
     const client = await MongoClient.connect(url, { useNewUrlParser: true }).catch((err) => {
@@ -32,7 +33,7 @@ async function stream(req, res) {
     const fn = filentry.fname;
     let isVideo = filentry.video;
     
-    const path = `files/${fn}`;
+    const path = pth.resolve(__dirname, '..', 'files', fn)
     const stat = fs.statSync(path);
     const fileSize = stat.size;
     const range = req.headers.range;
@@ -75,9 +76,14 @@ async function stream(req, res) {
             "Content-Length": fileSize,
             "Content-Type": contentType,
         };
-
-        res.writeHead(200, head);
-        fs.createReadStream(path).pipe(res);
+        try{
+            res.writeHead(200, head);
+            fs.createReadStream(path).pipe(res);
+        }
+        catch(e){
+            console.log(e.message);
+            res.sendStatus(404);
+        }     
     } else {
         const parts = range.replace(/bytes=/, "").split("-");
         const start = parseInt(parts[0], 10);
@@ -106,9 +112,14 @@ async function stream(req, res) {
         //       })
         // } 
      
-        res.writeHead(206, head);
-        file.pipe(res);
-        
+        res.writeHead(206, head);        
+        try{
+            file.pipe(res);
+        }
+        catch(e){
+            console.log(e.message);
+            res.sendStatus(404);
+        }
     }
     client.close()
 }

@@ -83,3 +83,6 @@ A sea of podcasts. Dive into a world of podcasts from different genres like Educ
   <br>
   The user Id is the unique identification for the user along with the podcast ID it was listening to. This, is stored if he/she left in the middle of the listen, in which case the active listen boolean would be true. This would be used to store the podcasts that the user is listening to so that they can start from where they left. The likes is the number of likes the podcast has and the position is the position of the video time which has passed till now. When the video has completed, we can change the boolean to true and we can remove it from the active listen database.
 </p>
+
+![WhatsApp Image 2023-04-24 at 15 40 47](https://user-images.githubusercontent.com/77777434/234038883-399e5f95-aea2-4f9b-94d5-d5ffce4b83b6.jpeg)
+

@@ -34,8 +34,9 @@ async function stream(req, res) {
     let isVideo = filentry.video;
     
     const path = pth.resolve(__dirname, '..', 'files', fn)
+    var stat
     try{
-        const stat = fs.statSync(path);
+        stat = fs.statSync(path);
     }
     catch(e){
         console.log(e.message);
@@ -45,32 +46,7 @@ async function stream(req, res) {
     const fileSize = stat.size;
     const range = req.headers.range;
     let dt  = new Date();    
-    // const getInitSet = await col2.findOne({podcastId: req.params.podcastId, userId: req.userId});
-    // if (!getInitSet){
-    //     const data = {
-    //         userId: req.userId,
-    //         podcastId: req.params.podcastId,
-    //         activeListen: true,
-    //         like: false,
-    //         position: 0,
-    //         completed: false,
-    //         lastAccess: new TS({t: Math.round(dt.getTime()/1000), i: 0})
-    //     }
-    //     let initConf = await col2.insertOne(data);
-    //     if (!initConf.acknowledged) {
-    //         res.send({success: false, message: "Server Error!"});
-    //         return;
-    //     }
-    // }
-    // else {
-    //     if (!getInitSet.activeListen){
-    //         let initConf = await col.updateOne({podcastId: req.params.podcastId, userId: req.userId}, {$set: {activeListen: true, lastAccess: new TS({t: Math.round(dt.getTime()/1000), i: 0})}});
-    //         if (!initConf.acknowledged) {
-    //             res.send({success: false, message: "Server Error!"});
-    //             return;
-    //         }
-    //     }        
-    // }
+    
     var contentType 
     if(!isVideo) {
         contentType = "audio/mpeg"

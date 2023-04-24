@@ -4,7 +4,7 @@ const path = require("path");
 const internal = require("stream");
 var MongoClient = require("mongodb").MongoClient;
 var url =
-    "mongodb://default:76VdQ34wZzBtt3MY@ac-qvcvywt-shard-00-00.lwxcedr.mongodb.net:27017,ac-qvcvywt-shard-00-01.lwxcedr.mongodb.net:27017,ac-qvcvywt-shard-00-02.lwxcedr.mongodb.net:27017/?ssl=true&replicaSet=atlas-vjhen2-shard-0&authSource=admin&retryWrites=true&w=majority";
+    process.env.DB_SECRET;
 var ObjectID = require("mongodb").ObjectId;
 const Chunk = 1000000;
 var TS = require('mongodb').Timestamp;

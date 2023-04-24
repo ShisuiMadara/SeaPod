@@ -5,8 +5,9 @@ const multer = require("multer");
 const cors = require("cors");
 const dotenv = require('dotenv');
 app.use(cors({ origin: "*" }));
-
-dotenv.config();
+const path = require("path");
+console.log(__dirname)
+dotenv.config({path: path.resolve(__dirname, '.env')});
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

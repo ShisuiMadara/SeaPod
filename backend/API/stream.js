@@ -76,9 +76,14 @@ async function stream(req, res) {
             "Content-Length": fileSize,
             "Content-Type": contentType,
         };
-
-        res.writeHead(200, head);
-        fs.createReadStream(path).pipe(res);
+        try{
+            res.writeHead(200, head);
+            fs.createReadStream(path).pipe(res);
+        }
+        catch(e){
+            console.log(e.message);
+            res.sendStatus(404);
+        }     
     } else {
         const parts = range.replace(/bytes=/, "").split("-");
         const start = parseInt(parts[0], 10);
@@ -107,9 +112,14 @@ async function stream(req, res) {
         //       })
         // } 
      
-        res.writeHead(206, head);
-        file.pipe(res);
-        
+        res.writeHead(206, head);        
+        try{
+            file.pipe(res);
+        }
+        catch(e){
+            console.log(e.message);
+            res.sendStatus(404);
+        }
     }
     client.close()
 }

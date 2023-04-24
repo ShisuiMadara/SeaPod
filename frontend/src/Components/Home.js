@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { makeStyles } from "@material-ui/core/styles";
-import { Carousel } from "react-material-ui-carousel";
 import CollapsibleCard from "./Card";
+import Carousell from "./Carousel"
 
 function Home() {
     const [data, setData] = useState([]);
@@ -25,8 +24,17 @@ function Home() {
     if (!isLoading) {
         return <>Loading video data...</>;
     }
-
+    let carouselData = [];
+    data.forEach(d => {
+        if(carouselData.length < 5) {
+            if(Math.floor(Math.random() * 100) % 2) {
+                carouselData.push(d);
+            }
+        }
+    })
     return (
+        <>
+        <Carousell data={carouselData}/>
         <div className=" w-full h-full p-2 overflow-y-scroll flex flex-row flex-wrap justify-evenly">
             {data.map((dat, index) => {
                 return (
@@ -36,6 +44,7 @@ function Home() {
                 );
             })}
         </div>
+        </>
     );
 }
 

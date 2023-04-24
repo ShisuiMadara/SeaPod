@@ -8,6 +8,7 @@ var url =
 var ObjectID = require("mongodb").ObjectId;
 const Chunk = 1000000;
 var TS = require('mongodb').Timestamp;
+const pth = require('path');
 
 async function stream(req, res) {
     const client = await MongoClient.connect(url, { useNewUrlParser: true }).catch((err) => {
@@ -32,7 +33,7 @@ async function stream(req, res) {
     const fn = filentry.fname;
     let isVideo = filentry.video;
     
-    const path = `files/${fn}`;
+    const path = pth.resolve(__dirname, '..', 'files', fn)
     const stat = fs.statSync(path);
     const fileSize = stat.size;
     const range = req.headers.range;

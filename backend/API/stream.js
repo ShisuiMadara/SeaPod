@@ -34,7 +34,14 @@ async function stream(req, res) {
     let isVideo = filentry.video;
     
     const path = pth.resolve(__dirname, '..', 'files', fn)
-    const stat = fs.statSync(path);
+    try{
+        const stat = fs.statSync(path);
+    }
+    catch(e){
+        console.log(e.message);
+        res.sendStatus(404);
+        return;
+    }
     const fileSize = stat.size;
     const range = req.headers.range;
     let dt  = new Date();    
@@ -83,6 +90,7 @@ async function stream(req, res) {
         catch(e){
             console.log(e.message);
             res.sendStatus(404);
+            return;
         }     
     } else {
         const parts = range.replace(/bytes=/, "").split("-");
@@ -119,6 +127,7 @@ async function stream(req, res) {
         catch(e){
             console.log(e.message);
             res.sendStatus(404);
+            return;
         }
     }
     client.close()

@@ -6,6 +6,10 @@ var url =
     "mongodb://default:76VdQ34wZzBtt3MY@ac-qvcvywt-shard-00-00.lwxcedr.mongodb.net:27017,ac-qvcvywt-shard-00-01.lwxcedr.mongodb.net:27017,ac-qvcvywt-shard-00-02.lwxcedr.mongodb.net:27017/?ssl=true&replicaSet=atlas-vjhen2-shard-0&authSource=admin&retryWrites=true&w=majority";
 
 async function change(req, res) {
+    if(!req.body.password || !req.body.newPassword || !req.body.genre || req.body.genre.length == 0){
+        res.send({success: false, message: "Bad Request"});
+        return;
+    }
     const client = await MongoClient.connect(url, { useNewUrlParser: true }).catch((err) => {
         console.log(err);
     });

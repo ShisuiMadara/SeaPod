@@ -38,6 +38,8 @@ const CollapsibleCard = ({ data }) => {
                         </div>
                         <div className="w-full font-thin text-white bg-sky-900 italic h-2/3 rounded p-1 overflow-ellipsis">
                             {data.description}
+                            <br/><br/>
+                            Speaker: {data.creatorId}
                         </div>
                     </div>
                 </FrontSide>

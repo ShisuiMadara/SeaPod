@@ -32,3 +32,54 @@ A sea of podcasts. Dive into a world of podcasts from different genres like Educ
   <li>The database is a <b>NoSQL MongoDB</b>. This provides for <b>flexible storing and access</b>. The database is hosted on cloud and thus allows to make calls from different hosting environment without compromising performance. This makes the code more readble and accessible.</li>
   <li>The code is <b>modular and follows a guide for coding style</b>. This makes the codebase easy to read and manage.</li>
 </ui>
+<br>
+<h1>Database features</h1>
+<p>The database maintains a cluster for each:
+    <ui>
+      <li>Registered users</li>
+      <li>Podcasts</li>
+      <li>Podcasts viewed by users</li>
+  </ui>
+ </p>
+<p>
+  The registered user collection has the following keys:
+  <ui>
+    <li>user ID (string) </li>
+    <li>user email (string) </li>
+    <li>Hashed password (string) </li>
+    <li>isAdmin (boolean) </li>
+    <li>Genres (array) </li>
+  </ui>
+  <br>
+ <p>The user ID identifies each of the user along with the email. The hashed password is stored to match while the account details are updated. The isAdmin variable allows the role based access and the Genres is the array of genres which the user is interested in. These can be updated from the Account section.
+   </p>
+</p>
+<br>
+<p>
+  The Podcast collection contains the following keys:
+  <ui>
+    <li>Name (string)</li>
+    <li>Creator ID (string) </li>
+    <li>Genre (string)</li>
+    <li>Likes (integer)</li>
+    <li>File Name (string) </li>
+    <li>File extension (string)</li>
+    <li>Description (string) </li>
+  </ui>
+  <br>
+ <p>The name is the name of the podcast. The creator ID is the unique ID of the creator, the genre is the type of genre the podcast caters to. The number of likes and the file name is also stored. The description is the brief detail about the podcast and thus can attract the viewers to listen to it.</p>
+</p>
+<br>
+<p>
+  The user view collection has:
+  <ui>
+    <li>User ID (string)</li>
+    <li>Podcast ID (string)</li>
+    <li>Active Listen (boolean) </li>
+    <li>Likes (Integer)</li>
+    <li>Position (Integer)</li>
+    <li>Completed (Boolean)</li>
+  </ui>
+  <br>
+  The user Id is the unique identification for the user along with the podcast ID it was listening to. This, is stored if he/she left in the middle of the listen, in which case the active listen boolean would be true. This would be used to store the podcasts that the user is listening to so that they can start from where they left. The likes is the number of likes the podcast has and the position is the position of the video time which has passed till now. When the video has completed, we can change the boolean to true and we can remove it from the active listen database.
+</p>

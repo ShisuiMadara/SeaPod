@@ -19,7 +19,7 @@ function VideoDesc(props) {
         }
         axios
             .post(
-                "http://localhost:5000/api/like",
+                "http://seapod.centralindia.cloudapp.azure.com:5000/api/like",
                 { podcastId: videoid },
                 { headers: { Authorization: `bearer ${localStorage.getItem("token")}` } },
             )
@@ -36,7 +36,7 @@ function VideoDesc(props) {
         }
         axios
             .post(
-                "http://localhost:5000/api/isLiked",
+                "http://seapod.centralindia.cloudapp.azure.com:5000/api/isLiked",
                 { podcastId: videoid },
                 {
                     headers: {

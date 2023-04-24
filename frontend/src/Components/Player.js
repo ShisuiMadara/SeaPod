@@ -13,7 +13,7 @@ function Player() {
         const timeLineUpdater = setInterval(() => {
             axios
                 .post(
-                    "http://localhost:5000/api/updatepos",
+                    "http://seapod.centralindia.cloudapp.azure.com:5000/api/updatepos",
                     {
                         podcastId: videoid,
                         position: element.currentTime,
@@ -49,7 +49,7 @@ function Player() {
                 }}
                 autoPlay={true}
             >
-                <source src={"http://localhost:5000/stream/" + videoid}></source>
+                <source src={"http://seapod.centralindia.cloudapp.azure.com:5000/stream/" + videoid}></source>
             </video>
         </Box>
     );

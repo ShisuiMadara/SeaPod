@@ -26,7 +26,7 @@ function Account() {
     function changePass() {
         axios
             .post(
-                "http://localhost:5000/changepass",
+                "http://seapod.centralindia.cloudapp.azure.com:5000/changepass",
                 { password: curpass, newPassword: newpass, newGenre: newgenre },
                 { headers: { Authorization: `bearer ${localStorage.getItem("token")}` } },
             )

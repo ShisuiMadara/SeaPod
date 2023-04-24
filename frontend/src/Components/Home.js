@@ -11,7 +11,7 @@ function Home() {
     const [genreWise, setGenreWise] = useState({});
     useEffect(() => {
         axios
-            .get("http://localhost:5000/api/getpodcastdata", {
+            .get("http://seapod.centralindia.cloudapp.azure.com:5000/api/getpodcastdata", {
                 headers: { Authorization: `bearer ${localStorage.getItem("token")}` },
             })
             .then((resp) => {

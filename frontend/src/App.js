@@ -13,12 +13,12 @@ import NoPage from "./pages/nopage/nopage";
 
 function App() {
     return (
-        <div className="App bg-sky-50">
+        <div className="App bg-sky-50 h-screen w-screen overflow-scroll">
             <NavBar />
             <Routes>
                 {localStorage.getItem("token") && jwt(localStorage.getItem("token")) ? (
                     <><Route path="/" element={<Home />} />
-                    <Route path="/video/:videoData" element={<Video />}>                    
+                    <Route path="/video/:videoData" element={<Video />}>
                     </Route></>
                 ) : (
                     <Route path="/" element={<Login />}>

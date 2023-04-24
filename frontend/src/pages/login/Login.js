@@ -69,18 +69,18 @@ function Login() {
     }
 
     return (
-        <div className="flex w-full lg:flex-row flex-col" style={{ height: "93vh" }}>
+        <div className="flex w-full lg:flex-row flex-col" style={{ height: "100vh" }}>
             <div className="lg:w-1/3 w-full p-5 pb-1">
                 <div className="text-5xl font-serif text-sky-800 w-full justify-center flex flex-row">
                     SEAPOD
                  </div>
-                
+
                  <div className="text-3xl font-serif text-sky-400 w-full justify-center flex flex-row">
-                        Dive into the world of podcasts. 
+                        Dive into the world of podcasts.
                 </div>
 
                 <div className="flex flex-col h-full justify-center w-full">
-                    
+
                     <div className="justify-center flex flex-row w-full p-4 pt-5">
                         <div
                             className="rounded-full overflow-hidden"

@@ -15,7 +15,7 @@ function Video(){
                         <Player/>
                     </Box>
                     <Box mx={'auto'} mt={0}>
-                        <VideoDesc likes={data.likes} title={data.name} by={data.creatorId} date={data.date} desc={data.description}/>
+                        <VideoDesc likes={data.likes} title={data.name} by={data.creatorId} date={data.uploadDate} desc={data.description}/>
                     </Box>
                 </Stack>
             </Grid>

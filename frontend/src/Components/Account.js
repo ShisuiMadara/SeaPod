@@ -11,18 +11,11 @@ import {
 } from "@mui/material";
 import { Divider, Typography, Button } from "@mui/material";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate, Outlet } from "react-router-dom";
-import jwt from "jwt-decode";
 
 function Account() {
     const navigate = useNavigate();
-    useEffect(() => {
-        if (!localStorage.getItem("token")) {
-            navigate("/login/redir");
-            return;
-        }
-    }, []);
     const [curpass, setCurpass] = useState("");
     const [newpass, setNewpass] = useState("");
     const [newgenre, setnewGenre] = useState([]);
@@ -31,7 +24,6 @@ function Account() {
         /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
     function changePass() {
-        console.log(jwt(localStorage.getItem("token")));
         axios
             .post(
                 "http://localhost:5000/changepass",
@@ -42,7 +34,8 @@ function Account() {
                 if (resp.data.success) {
                     alert("Password Changed! Please Re-Login");
                     navigate("/logout");
-                    window.location.href = "/";
+                } else {
+                    alert(resp.data.message)
                 }
             })
             .catch((e) => {
@@ -82,12 +75,10 @@ function Account() {
                                 <TextField
                                     label="Old Password"
                                     type="password"
-                                    color={isPasswordValid === false ? "error" : "primary"}
+                                    color={curpass === "" ? "error" : "primary"}
                                     value={curpass}
                                     onChange={(e) => {
                                         setCurpass(e.target.value);
-                                        if (passwordRegex.test(e.target.value)) checkPass(true);
-                                        else checkPass(false);
                                     }}
                                     sx={{ mx: 2, backgroundColor: "white" }}
                                 />
@@ -130,7 +121,9 @@ function Account() {
                                 <Grid item xs={12}>
                                     <Button
                                         onClick={changePass}
-                                        disabled={curpass == ""}
+                                        disabled={
+                                            curpass === "" || !isPasswordValid || newgenre === []
+                                        }
                                         variant="contained"
                                     >
                                         <Typography textTransform={"capitalize"}>

@@ -25,7 +25,6 @@ function Home() {
                     genres.forEach((genre) => {
                         tempGenre[genre] = [];
                     });
-                    console.log();
                     data.forEach((d) => {
                         if (temp.length < 5) {
                             if (Math.floor(Math.random() * 100) % 2) {
@@ -51,38 +50,43 @@ function Home() {
     if (!isLoading) {
         return <>Loading video data...</>;
     }
-
     return (
         <>
             <Carousell data={carouselData} />
-            <div className="w-full p-2">
-                <div className="text-2xl w-full text-left font-semibold italic underline">
-                    Start From Where You Left
+            {viewed.length ? (
+                <div className="w-full p-2">
+                    <div className="text-2xl w-full text-left font-semibold italic underline">
+                        Start From Where You Left
+                    </div>
+                    <div className="w-full overflow-scroll whitespace-nowrap">
+                        {viewed.map((data, index) => {
+                            return (
+                                <div
+                                    item
+                                    className="inline-block p-3 w-96 h-fit"
+                                    key={`videoContinue#${index}`}
+                                >
+                                    <CollapsibleCard data={data} />
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
-                <div className="w-full overflow-scroll justify-items-start">
-                    {viewed.map((data, index) => {
-                        return (
-                            <div
-                                item
-                                className="inline-block p-3 w-96 h-fit"
-                                key={`videoContinue#${index}`}
-                            >
-                                <CollapsibleCard data={data} />
-                            </div>
-                        );
-                    })}
-                </div>
-            </div>
-            {Object.keys(genreWise).forEach((genre, index) => {
-                if (!genreWise[genre].length) {
+            ) : (
+                <></>
+            )}
+
+            {Object.keys(genreWise).map((genre, index) => {
+                if (genreWise[genre].length === 0) {
                     return <></>;
                 }
                 return (
                     <div className="w-full p-2" key={`genre#${genre}${index}`}>
-                        <div className="text-2xl w-full text-left font-semibold italic underline">
-                           Recommended For You - {genre}
+                        <div className="w-full text-left">
+                            <span className="text-3xl font-semibold italic mr-3">{genre}</span>
+                            <sub>Recommended For You</sub>
                         </div>
-                        <div className="w-full overflow-scroll justify-items-start">
+                        <div className="w-full overflow-scroll whitespace-nowrap">
                             {genreWise[genre].map((data, index) => {
                                 return (
                                     <div
@@ -104,6 +108,9 @@ function Home() {
                 </div>
                 <div className="w-full flex flex-row flex-wrap justify-evenly">
                     {data.map((data, index) => {
+                        if (Object.keys(genreWise).find((genre) => genre === data.genre)) {
+                            return <></>;
+                        }
                         return (
                             <div item className="p-3 w-96 h-fit" key={`videoContinue#${index}`}>
                                 <CollapsibleCard data={data} />

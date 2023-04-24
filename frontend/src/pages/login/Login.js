@@ -222,7 +222,8 @@ function Login() {
                                                 user === "" ||
                                                 pass === "" ||
                                                 email === "" ||
-                                                name === ""
+                                                name === "" ||
+                                                genre === []
                                             }
                                         >
                                             Signup

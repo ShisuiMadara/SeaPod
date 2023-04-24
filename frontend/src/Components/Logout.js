@@ -1,13 +1,11 @@
-import { useEffect } from "react"
-import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
-function Logout(){
-    const navigate = useNavigate();
-    useEffect(()=>{
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
+function Logout() {
+    useEffect(() => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
         window.location.href = "/";
-    }, [])
-    return (<>Should be redirected!</>)
+    }, []);
+    return <>Should be redirected!</>;
 }
 export default Logout;

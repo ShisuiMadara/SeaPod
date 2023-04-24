@@ -6,8 +6,12 @@ var url =
     "mongodb://default:76VdQ34wZzBtt3MY@ac-qvcvywt-shard-00-00.lwxcedr.mongodb.net:27017,ac-qvcvywt-shard-00-01.lwxcedr.mongodb.net:27017,ac-qvcvywt-shard-00-02.lwxcedr.mongodb.net:27017/?ssl=true&replicaSet=atlas-vjhen2-shard-0&authSource=admin&retryWrites=true&w=majority";
 
 async function change(req, res) {
-    if(!req.body.password || !req.body.newPassword || !req.body.genre || req.body.genre.length == 0){
-        res.send({success: false, message: "Bad Request"});
+    if (
+        !req.body.password ||
+        !req.body.newPassword ||
+        req.body.newGenre.length == 0
+    ) {
+        res.send({ success: false, message: "Bad Request" });
         return;
     }
     const client = await MongoClient.connect(url, { useNewUrlParser: true }).catch((err) => {
@@ -23,16 +27,14 @@ async function change(req, res) {
     let currPassHash = user.passHash;
     var updated_user;
     if (req.body.newPassword) {
-        console.log(1);
         var PassHashProvided = await bcrypt.hash(req.body.password, 10);
-        console.log(2);
         const match = await bcrypt.compare(currPassHash, await PassHashProvided);
 
         if (!match) {
             client.close();
             res.send({
                 success: false,
-                msg: "Current password mismatched",
+                message: "Current password mismatched",
             });
             return;
         }

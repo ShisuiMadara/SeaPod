@@ -19,8 +19,7 @@ function Video(){
                     </Box>
                 </Stack>
             </Grid>
-            <Grid item xs ={12} md={4} lg={3}>
-                {/* <Comments/> */}
+            <Grid item xs ={12} md={4} lg={3}>                
                 <Outlet/>
             </Grid>
         </Grid>

@@ -1,8 +1,6 @@
 import "./App.css";
 import NavBar from "./Components/NavTop";
 import Home from "./Components/Home";
-import Comments from "./Components/Comments";
-import Replies from "./Components/Replies";
 import Video from "./Components/Video";
 import { Route, Routes } from "react-router-dom";
 import Login from "./pages/login/Login";
@@ -20,9 +18,7 @@ function App() {
             <Routes>
                 {localStorage.getItem("token") && jwt(localStorage.getItem("token")) ? (
                     <><Route path="/" element={<Home />} />
-                    <Route path="/video/:videoData" element={<Video />}>
-                    <Route index element={<Comments />} />
-                        <Route path=":commentid" element={<Replies />} />
+                    <Route path="/video/:videoData" element={<Video />}>                    
                     </Route></>
                 ) : (
                     <Route path="/" element={<Login />}>
